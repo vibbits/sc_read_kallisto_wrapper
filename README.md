@@ -40,3 +40,4 @@ shebang "#!/usr/bin/perl" at the top might have to be modified as well.
 Type ./sc_read_kallisto_wrapper.pl -h to obtain information about how to format
 the command line.
 There is a stand-alone HTML file sc_read_kallisto_wrapper.html with more information about what the wrapper does.
+You can find the same information in the [wiki](https://github.com/vibbits/sc_read_kallisto_wrapper/wiki)
