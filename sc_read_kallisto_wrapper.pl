@@ -6,8 +6,9 @@
 
 if ($ARGV[0] =~ /^--?h(elp)?$/) {
   print "commandline is :\n\n";
-  print "sc_read_kallisto_wrapper.pl --BCLfile ??? --CSVfile ??? --index ??? --transcriptome ??? --undetermined ??? --expcells ??? --distance ??? \n\n";
+  print "sc_read_kallisto_wrapper_4test.pl --BCLfile ??? --CSVfile ??? --index ??? --transcriptome ??? --undetermined ??? --expcells ??? --distance ??? \n\n";
   print "arguments :\n";
+  print "  --BCLfile : tarred and compressed BCL file\n";
   print "  --CSVfile : IEM file or file in csv format with info about samples\n";
   print "  --index : a kallisto index\n";
   print "  --transcriptome :  the fastA file with a transcriptome used to make the kallisto index\n";
@@ -24,21 +25,20 @@ use File::Find;
 use File::Copy;
 use File::Path qw(make_path remove_tree);
 
-# These must be adapted appropriately
-$cellranger = 'XXX/cellranger-2.0.0/cellranger';
+# These must be adampted appropriately
+$cellranger = 'XXX/cellranger-2.0.2/cellranger';
 $bcl2fastqpath = 'XXX/bcl2fastq/build/cxx/bin';
 $kallisto='XXX/kallisto_linux-v0.43.1';
 $libdir = 'XXX'; # the location of the Python scripts
 $python = '/usr/bin/python';
 $Nthreads = 8;
-# nothing to modify below this line
 
 GetOptions(\%options,
   "BCLfile=s",
   "CSVfile=s",
-  "index=s",
-  "transcriptome=s",
-  "undetermined=s",
+  "index=s", # an FTP object, optional in interface
+  "transcriptome=s", # an FTP object, optional in interface
+  "undetermined=s", # yes or no (is default) 
   "expcells=i",
   "distance=i"
 );
