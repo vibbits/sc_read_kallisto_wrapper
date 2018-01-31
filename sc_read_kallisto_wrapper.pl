@@ -6,7 +6,7 @@
 
 if ($ARGV[0] =~ /^--?h(elp)?$/) {
   print "commandline is :\n\n";
-  print "sc_read_kallisto_wrapper_4test.pl --BCLfile ??? --CSVfile ??? --index ??? --transcriptome ??? --undetermined ??? --expcells ??? --distance ??? \n\n";
+  print "sc_read_kallisto_wrapper.pl --BCLfile ??? --CSVfile ??? --index ??? --transcriptome ??? --undetermined ??? --expcells ??? --distance ??? \n\n";
   print "arguments :\n";
   print "  --BCLfile : tarred and compressed BCL file\n";
   print "  --CSVfile : IEM file or file in csv format with info about samples\n";
