@@ -25,7 +25,7 @@ use File::Find;
 use File::Copy;
 use File::Path qw(make_path remove_tree);
 
-# These must be adampted appropriately
+# These must be adapted appropriately
 $cellranger = 'XXX/cellranger-2.0.2/cellranger';
 $bcl2fastqpath = 'XXX/bcl2fastq/build/cxx/bin';
 $kallisto='XXX/kallisto_linux-v0.43.1';
