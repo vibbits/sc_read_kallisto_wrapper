@@ -43,6 +43,7 @@ There is a stand-alone HTML file sc_read_kallisto_wrapper.html with more informa
 You can find the same information in the [wiki](https://github.com/vibbits/sc_read_kallisto_wrapper/wiki)
 
 **What if I have no BCL file ?**  
+  
 If you have no access to the BCL file because the lab sent you directly the fastQ files, you can use instead sc_read_kallisto_simplewrapper.pl. Make sure the fastQ files respect the naming convention. The files must have names  
 **test_sample_S1_L001_R1_001.fastq.gz**
 where  
