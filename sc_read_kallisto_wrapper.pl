@@ -5,20 +5,22 @@
 # the equivalence class counts as input for Seurat.
 
 if ($ARGV[0] =~ /^--?h(elp)?$/) {
+  HELP:
   print "commandline is :\n\n";
   print "sc_read_kallisto_wrapper.pl --BCLfile ??? --CSVfile ??? --index ??? --transcriptome ??? --undetermined ??? --expcells ??? --distance ??? \n\n";
   print "arguments :\n";
   print "  --BCLfile : tarred and compressed BCL file\n";
   print "  --CSVfile : IEM file or file in csv format with info about samples\n";
   print "  --index : a kallisto index\n";
-  print "  --transcriptome :  the fastA file with a transcriptome used to make the kallisto index\n";
-  print "  --undetermined : report reads that could not be assigned to a sample (default : no)\n";
+  print "  --transcriptome :  the fastA file with the transcriptome used to make the kallisto index\n";
+  print "  --undetermined : report reads that could not be assigned to a sample (yes or no, default : no)\n";
   print "  --expcells : expected number of cells in a sample (default : 3000)\n";
   print "  --distance : minimum distance between cell barcodes (default : 5)\n";
   print
   exit;
 }
 
+no warnings; # needed to avoid warning about goto into a construct
 use Getopt::Long;
 use Archive::Extract;
 use File::Find;
@@ -28,7 +30,7 @@ use File::Path qw(make_path remove_tree);
 # These must be adapted appropriately
 $cellranger = 'XXX/cellranger-2.0.2/cellranger';
 $bcl2fastqpath = 'XXX/bcl2fastq/build/cxx/bin';
-$kallisto='XXX/kallisto_linux-v0.43.1';
+$kallisto = 'XXX/kallisto_linux-v0.43.1';
 $libdir = 'XXX'; # the location of the Python scripts
 $python = '/usr/bin/python';
 $Nthreads = 8;
@@ -36,12 +38,14 @@ $Nthreads = 8;
 GetOptions(\%options,
   "BCLfile=s",
   "CSVfile=s",
-  "index=s", # an FTP object, optional in interface
-  "transcriptome=s", # an FTP object, optional in interface
-  "undetermined=s", # yes or no (is default) 
+  "index=s",
+  "transcriptome=s",
+  "undetermined=s",
   "expcells=i",
   "distance=i"
 );
+if (not exists $options{BCLfile}) { goto 'HELP' }
+if (not exists $options{CSVfile}) { goto 'HELP' }
 if (not exists $options{undetermined}) { $options{undetermined} = 'no' }
 if (not exists $options{expcells}) { $options{expcells} = 3000 }
 if (not exists $options{distance}) { $options{distance} = 5 }
@@ -217,7 +221,7 @@ if (not exists $sample_names[0]) {
 #   print "$sample_name\n";
 #}
 
-# check for kallisto index, transcriptome and SAM file
+# check for kallisto index  and transcriptome
 # exit if no kallisto index is provided
 if (exists $options{index}) {
   $index = $options{index};
@@ -261,9 +265,9 @@ foreach $sample_name (@sample_names) {
   system "$kallisto/kallisto pseudo -i $index -o ${sample_name}_kallisto --umi -b FASTQ_SPLIT_PER_CELL/umi_read_list.txt -t $Nthreads 2>> stdout.txt";
     # we redirect STDERR of kallisto to STDOUT to avoid error icon
   remove_tree('config.json', 'CELL_BARCODES', 'FASTQ_SPLIT_PER_CELL');
-  if (not -e "${sample_name}_kallisto/matrix.cells") { $error =1 }
-  if (not -e "${sample_name}_kallisto/matrix.ec") { $error =1 }
-  if (not -e "${sample_name}_kallisto/matrix.tsv") { $error =1 }
+  if (not -e "${sample_name}_kallisto/matrix.cells") { $error = 1 }
+  if (not -e "${sample_name}_kallisto/matrix.ec") { $error = 1 }
+  if (not -e "${sample_name}_kallisto/matrix.tsv") { $error = 1 }
 }
 if ($error) {
   die "Something went wrong with the kallisto mapping. Are you sure you provided a correct index ?\n";
