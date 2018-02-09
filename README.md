@@ -45,8 +45,9 @@ You can find the same information in the [wiki](https://github.com/vibbits/sc_re
 **What if I have no BCL file ?**  
   
 If you have no access to the BCL file because the lab sent you directly the fastQ files, you can use instead sc_read_kallisto_simplewrapper.pl. Make sure the fastQ files respect the naming convention. The files must have names  
+  
 **test_sample_S1_L001_R1_001.fastq.gz**
 where  
-**test_sample** is the sample name  
-**S1** is S followed by a sample number  
-**R1** is R or I followed by a number
+* **test_sample** is the sample name  
+* **S1** is S followed by a sample number  
+* **R1** is R or I followed by a number
